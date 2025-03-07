@@ -3,16 +3,15 @@
  */
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Environment {
     private HashMap<String, LispVariable> variables;
-    private HashSet<LispFunction> functions;
+    private HashMap<String, LispFunction> functions;
     private Environment parent;
     
     public Environment(Environment parent) {
         this.variables = new HashMap<>();
-        this.functions = new HashSet<>();
+        this.functions = new HashMap<>();
         this.parent = parent;
     }
 
@@ -41,7 +40,14 @@ public class Environment {
     }
 
     public void defineFunction(String name, LispFunction function) {
-        this.functions.add(function);
+        this.functions.put(name, function);
+    }
+
+    public LispFunction getFunction(String name) throws RuntimeException {
+        if (!this.functions.containsKey(name)) {
+            throw new RuntimeException("No existe la función " + name + " en el scope actual.");
+        }
+        return this.functions.get(name);
     }
 
 
