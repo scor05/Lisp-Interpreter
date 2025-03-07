@@ -4,22 +4,44 @@
 
 import java.util.List;
 
-public class LispFunction<T> {
+public class LispFunction{
     private String name;
-    private List<T> params; 
+    private List<String> params; 
     private Object body;
     
-    public LispFunction(String name, List<T> params, Object body) {
+    public LispFunction(String name, List<String> params, Object body) {
         this.name = name;
         this.params = params;
         this.body = body;
     }
     
+    public Object apply(List<Object> args, Environment env){
+        if (this.body == null){
+            throw new RuntimeException("No se puede aplicar una función vacía.");
+        }
+        for (int i = 0; i < this.params.size(); i++) {
+            env.setVar(this.params.get(i), args.get(i).getClass().getSimpleName().toLowerCase(), args.get(i));
+        }
+
+        Environment funcEnv = new Environment(env);
+
+        Evaluator e = new Evaluator(env);
+        if (this.body instanceof List){
+            Object result = null;
+            List<?> bodyList = (List<?>) this.body; // Parsear a list
+            for (Object exp : bodyList) {
+                result = e.eval(exp, funcEnv);
+            }
+            return result;
+        }
+        return e.eval(this.body, funcEnv); // Funciones de solo una línea
+    }
+
     public String getName() {
         return name;
     }
     
-    public List<T> getParams() {
+    public List<String> getParams() {
         return params;
     }
     
@@ -31,7 +53,7 @@ public class LispFunction<T> {
         this.name = name;
     }
 
-    public void setParams(List<T> params) {
+    public void setParams(List<String> params) {
         this.params = params;
     }
 

@@ -2,42 +2,45 @@
  * Clase que se representa los scopes del programa, se instanciará una vez por cada función.
  */
 
-import java.rmi.NoSuchObjectException;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class Environment<T> {
+public class Environment {
     private HashMap<String, LispVariable> variables;
-    private HashSet<LispFunction<T>> functions;
-
-    public Environment() {
+    private HashSet<LispFunction> functions;
+    private Environment parent;
+    
+    public Environment(Environment parent) {
         this.variables = new HashMap<>();
         this.functions = new HashSet<>();
+        this.parent = parent;
     }
 
     public void setVar(String name, String type, Object value) {
         this.variables.put(name, new LispVariable(name, type, value));
     }
 
-    public Object getVar(String name) throws NoSuchObjectException {
-        if (!this.variables.containsKey(name)) {
-            throw new NoSuchObjectException("No existe la variable " + name);
+    public Object getVar(String name) throws RuntimeException {
+        if (!this.variables.containsKey(name) && (this.parent != null && !this.parent.variables.containsKey(name))) {
+            throw new RuntimeException("No se reconoce la variable " + name + " en el scope actual.");
         }
-        switch(this.variables.get(name).getType()) {
+        String varString = this.variables.get(name).getValue().toString();
+        String varType = this.variables.get(name).getType();
+        switch(varType) {
             case "int":
-                return Integer.parseInt(this.variables.get(name).getValue().toString());
+                return Integer.parseInt(varString);
             case "double":
-                return Double.parseDouble(this.variables.get(name).getValue().toString());
+                return Double.parseDouble(varString);
             case "boolean":
-                return Boolean.parseBoolean(this.variables.get(name).getValue().toString());
+                return Boolean.parseBoolean(varString);
             case "string":
-                return this.variables.get(name).getValue().toString();
+                return varString;
             default:
-                throw new NoSuchObjectException("No existe el tipo de dato " + this.variables.get(name).getType());
+                throw new RuntimeException("No existe el tipo de dato " + this.variables.get(name).getType());
         }
     }
 
-    public void defineFunction(String name, LispFunction<T> function) {
+    public void defineFunction(String name, LispFunction function) {
         this.functions.add(function);
     }
 

@@ -3,7 +3,6 @@
  */
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -20,10 +19,12 @@ public class Driver {
             System.out.print("\nIngrese el nombre del archivo que desea ejecutar (extensión .txt): \nR/ ");
             String fileName = sc.nextLine();
             try{
-                ArrayList<String[]> tokens = readFile(fileName);
-                if (tokens.size() == 0) {
-                    System.out.println("No hay ninguna operación en el archivo.");
+                String code = readFile(fileName);
+                if (code.length() == 0) {
+                    System.out.println("Output: \n");
                 }
+                LispInterpreter interpreter = new LispInterpreter();
+
             }catch (IOException e){
                 System.out.println("Error al leer el archivo: " + e.getMessage() + ". \nRevise el nombre del archivo y si existe en el directorio.\n");
             }
@@ -37,20 +38,20 @@ public class Driver {
     }
 
     /**
-     * Retorna una matriz de String[] en ArrayList con todas las líneas del archivo.
+     * Retorna un String con todas las líneas del archivo.
      * @param fileName
-     * @return ArrayList<String[]>
+     * @return String
      */
-    public static ArrayList<String[]> readFile(String fileName) throws IOException{
+    public static String readFile(String fileName) throws IOException{
         BufferedReader br = new BufferedReader(new java.io.FileReader(fileName));
         String line;
-        ArrayList<String[]> tokens = new ArrayList<>();
+        StringBuilder codigo = new StringBuilder();
         while((line = br.readLine()) != null) {
             String[] lines = line.split(" ");
-            tokens.add(lines);
+            codigo.append(lines);
         }
         br.close();
-        return tokens;
+        return codigo.toString();
     }
 
 }
