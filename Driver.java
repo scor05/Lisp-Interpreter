@@ -21,12 +21,12 @@ public class Driver {
             System.out.print("\nIngrese el nombre del archivo que desea ejecutar (extensión .txt): \nR/ ");
             String fileName = sc.nextLine();
             try{
-                String code = readFile(fileName);
-                if (code.length() == 0) {
+                ArrayList<String> code = readFile(fileName);
+                if (code.isEmpty() == 0) {
                     System.out.println("Output: \n");
                 }
                 LispInterpreter interpreter = new LispInterpreter();
-
+                //interpreter.excuteCode(code); TODO falta implementar parser
             }catch (IOException e){
                 System.out.println("Error al leer el archivo: " + e.getMessage() + ". \nRevise el nombre del archivo y si existe en el directorio.\n");
             }
