@@ -2,7 +2,9 @@
  * Clase main que ejecuta el intérprete y la UI
  */
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -40,18 +42,38 @@ public class Driver {
     /**
      * Retorna un String con todas las líneas del archivo.
      * @param fileName
-     * @return String
+     * @return ArrayList<String>
      */
-    public static String readFile(String fileName) throws IOException{
-        BufferedReader br = new BufferedReader(new java.io.FileReader(fileName));
+    public static ArrayList<String> readFile(String fileName) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
         String line;
-        StringBuilder codigo = new StringBuilder();
-        while((line = br.readLine()) != null) {
-            String[] lines = line.split(" ");
-            codigo.append(lines);
+        ArrayList<String> code = new ArrayList<>();
+        StringBuilder currentExpr = new StringBuilder();
+        while ((line = br.readLine()) != null) {
+            line = line.trim();
+            if (line.isEmpty()) {
+                continue;
+            }
+            currentExpr.append(line).append(" ");
+            if (isCompleteExpression(currentExpr.toString())) {
+                code.add(currentExpr.toString().trim());
+                currentExpr = new StringBuilder();
+            }
         }
         br.close();
-        return codigo.toString();
+        return code;
+    }
+
+    private static boolean isCompleteExpression(String expression) {
+        int openParens = 0;
+        for (char c : expression.toCharArray()) {
+            if (c == '(') {
+                openParens++;
+            } else if (c == ')') {
+                openParens--;
+            }
+        }
+        return openParens == 0;
     }
 
 }
