@@ -2,6 +2,8 @@
  * Clase que evaluará tanto listas como expresiones atómicas
  */
 
+import java.util.ArrayList;
+import java.util.List;
 public class Evaluator {
     private Environment env;
 
