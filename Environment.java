@@ -8,6 +8,12 @@ public class Environment {
     private HashMap<String, LispVariable> variables;
     private HashMap<String, LispFunction> functions;
     private Environment parent;
+
+    public Environment() {
+        this.variables = new HashMap<>();
+        this.functions = new HashMap<>();
+        this.parent = null;
+    }
     
     public Environment(Environment parent) {
         this.variables = new HashMap<>();
@@ -50,5 +56,11 @@ public class Environment {
         return this.functions.get(name);
     }
 
+    public HashMap<String, LispFunction> getFunctionsHashMap(){
+        return this.functions;
+    }
 
+    public HashMap<String, LispVariable> getVariablesHashMap(){
+        return this.variables;
+    }
 }
