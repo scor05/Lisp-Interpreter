@@ -55,3 +55,24 @@ public class Evaluator {
         }
     }
 }
+    private Object defineFunction(List<?> list, Environment env) {
+        String name = list.get(1).toString();
+        @SuppressWarnings("unchecked")
+        List<String> params = (List<String>) list.get(2);
+        Object body = list.get(3);
+        LispFunction function = new LispFunction(name, params, body);
+        env.defineFunction(name, function);
+        return name;
+    }
+
+    private Object setVariable(List<?> list, Environment env) {
+        String name = list.get(1).toString();
+        Object value = eval(list.get(2), env);
+        env.setVar(name, value.getClass().getSimpleName().toLowerCase(), value);
+        return value;
+    }
+
+    private Object isAtom(Object expression, Environment env) {
+        Object value = eval(expression, env);
+        return !(value instanceof List);
+    }
