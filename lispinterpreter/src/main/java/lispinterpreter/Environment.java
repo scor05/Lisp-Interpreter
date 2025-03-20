@@ -45,8 +45,8 @@ public class Environment {
             return this.parent.getVar(name);
         } else {
             throw new RuntimeException("No se reconoce la variable " + name + " en el scope actual.");
-        }
-    }
+        }
+    }
 
     public void defineFunction(String name, LispFunction function) {
         this.functions.put(name, function);
