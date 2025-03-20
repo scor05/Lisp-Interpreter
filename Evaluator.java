@@ -76,3 +76,23 @@ public class Evaluator {
         Object value = eval(expression, env);
         return !(value instanceof List);
     }
+
+    private Object isList(Object expression, Environment env) {
+        Object value = eval(expression, env);
+        return value instanceof List;
+    }
+
+    private Object isEqual(Object expr1, Object expr2, Environment env) {
+        Object val1 = eval(expr1, env);
+        Object val2 = eval(expr2, env);
+        return val1.equals(val2);
+    }
+
+    private Object greaterThan(Object expr1, Object expr2, Environment env) {
+        Object val1 = eval(expr1, env);
+        Object val2 = eval(expr2, env);
+        if (val1 instanceof Number && val2 instanceof Number) {
+            return ((Number) val1).doubleValue() > ((Number) val2).doubleValue();
+        }
+        throw new RuntimeException("No se puede comparar valores con datos no numericos.");
+    }
