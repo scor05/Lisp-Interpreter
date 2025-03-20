@@ -15,26 +15,28 @@ public class LispFunction{
         this.body = body;
     }
     
-    public Object apply(List<Object> args, Environment env){
-        if (this.body == null){
+    public Object apply(List<Object> args, Environment env) {
+        if (this.body == null) {
             throw new RuntimeException("No se puede aplicar una función vacía.");
-        }
-        for (int i = 0; i < this.params.size(); i++) {
-            env.setVar(this.params.get(i), args.get(i).getClass().getSimpleName().toLowerCase(), args.get(i));
         }
 
         Environment funcEnv = new Environment(env);
-
-        Evaluator e = new Evaluator(env);
-        if (this.body instanceof List){
-            Object result = null;
-            List<?> bodyList = (List<?>) this.body; // Parsear a list
-            for (Object exp : bodyList) {
-                result = e.eval(exp, funcEnv);
-            }
-            return result;
+    
+        for (int i = 0; i < this.params.size(); i++) {
+            String type = args.get(i).getClass().getSimpleName().toLowerCase();
+            funcEnv.setVar(this.params.get(i), type, args.get(i));
         }
-        return e.eval(this.body, funcEnv); // Funciones de solo una línea
+    
+        Evaluator e = new Evaluator(funcEnv);
+        Object result = null;
+    
+        if (this.body instanceof List) {
+            result = e.eval(this.body, funcEnv);
+        } else {
+            result = e.eval(this.body, funcEnv);
+        }
+    
+        return result;
     }
 
     public String getName() {
