@@ -5,9 +5,6 @@ package lispinterpreter;
 
 import java.util.HashMap;
 
-import lispinterpreter.LispFunction;
-import lispinterpreter.LispVariable;
-
 public class Environment {
     private HashMap<String, LispVariable> variables;
     private HashMap<String, LispFunction> functions;

@@ -5,8 +5,6 @@ package lispinterpreter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import lispinterpreter.LispFunction;
 public class Evaluator {
     private Environment env;
 

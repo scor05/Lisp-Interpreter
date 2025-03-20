@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import lispinterpreter.LispInterpreter;
-
 
 public class Driver {
     public static void main(String[] args) {
