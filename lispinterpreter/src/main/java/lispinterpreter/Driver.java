@@ -27,7 +27,8 @@ public class Driver {
                     System.out.println("Output: \n");
                 }
                 LispInterpreter interpreter = new LispInterpreter();
-                //interpreter.excuteCode(code); TODO falta implementar parser
+                interpreter.execute(code);
+
             }catch (IOException e){
                 System.out.println("Error al leer el archivo: " + e.getMessage() + ". \nRevise el nombre del archivo y si existe en el directorio.\n");
             }

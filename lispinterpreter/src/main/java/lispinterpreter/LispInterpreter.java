@@ -112,6 +112,7 @@ public class LispInterpreter {
     public void execute(ArrayList<String> code) {
         Evaluator evaluator = new Evaluator(globalEnv);
         for (String expression : code) {
+            System.out.println(expression);
             Object parsed = Parser.parse(expression);
             Object result = evaluator.eval(parsed, globalEnv);
             if (result != null && !(result instanceof String && globalEnv.getFunctionsHashMap().containsKey(result.toString()))) {

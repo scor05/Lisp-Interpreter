@@ -51,10 +51,13 @@ public class Environment {
     }
 
     public LispFunction getFunction(String name) throws RuntimeException {
-        if (!this.functions.containsKey(name)) {
+        if (this.functions.containsKey(name)) {
+            return this.functions.get(name);
+        } else if (this.parent != null) {
+            return this.parent.getFunction(name);
+        } else {
             throw new RuntimeException("No existe la función " + name + " en el scope actual.");
         }
-        return this.functions.get(name);
     }
 
     public HashMap<String, LispFunction> getFunctionsHashMap(){
