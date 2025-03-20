@@ -27,24 +27,26 @@ public class Environment {
     }
 
     public Object getVar(String name) throws RuntimeException {
-        if (!this.variables.containsKey(name) && (this.parent != null && !this.parent.variables.containsKey(name))) {
+        if (this.variables.containsKey(name)) {
+            LispVariable var = this.variables.get(name);
+            String varType = var.getType();
+            Object varValue = var.getValue();
+            
+            if (varValue instanceof Number) {
+                if (varType.equals("integer")) {
+                    return ((Number) varValue).intValue();
+                } else if (varType.equals("double")) {
+                    return ((Number) varValue).doubleValue();
+                }
+            }
+            return varValue;
+
+        } else if (this.parent != null) {
+            return this.parent.getVar(name);
+        } else {
             throw new RuntimeException("No se reconoce la variable " + name + " en el scope actual.");
-        }
-        String varString = this.variables.get(name).getValue().toString();
-        String varType = this.variables.get(name).getType();
-        switch(varType) {
-            case "int":
-                return Integer.parseInt(varString);
-            case "double":
-                return Double.parseDouble(varString);
-            case "boolean":
-                return Boolean.parseBoolean(varString);
-            case "string":
-                return varString;
-            default:
-                throw new RuntimeException("No existe el tipo de dato " + this.variables.get(name).getType());
-        }
-    }
+        }
+    }
 
     public void defineFunction(String name, LispFunction function) {
         this.functions.put(name, function);
