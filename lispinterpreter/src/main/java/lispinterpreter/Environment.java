@@ -1,8 +1,12 @@
+package lispinterpreter;
 /**
  * Clase que se representa los scopes del programa, se instanciará una vez por cada función.
  */
 
 import java.util.HashMap;
+
+import lispinterpreter.LispFunction;
+import lispinterpreter.LispVariable;
 
 public class Environment {
     private HashMap<String, LispVariable> variables;

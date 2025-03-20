@@ -1,0 +1,36 @@
+(defun suma (a b)
+  (+ a b))
+(suma 2 3)
+
+(setq mi-lista '(1 2 3 4))
+
+(defun cuadrado (x)
+  (* x x))
+(cuadrado 25)
+
+(setq numero 10)
+(setq mensaje "Hola, Lisp!")
+
+(defun es-atomico (x)
+  (atom x))
+(es-atomico 9)
+
+(defun factorial (n) 
+  (cond
+    ((= n 0) 1)
+    (T (* n (factorial (- n 1))))))
+(factorial 5)
+
+(defun comparar-numeros (a b)
+  (cond
+    ((> a b) "El primer número es mayor")
+    ((< a b) "El segundo número es mayor")
+    (T "Los números son iguales")))
+(comparar-numeros 5 4)
+
+(defun clasificar-numero (n)
+  (cond
+    ((> n 0) "El numero es positivo")
+    ((< n 0) "El numero es negativo")
+    (T "Cero")))
+(clasificar-numero -3)

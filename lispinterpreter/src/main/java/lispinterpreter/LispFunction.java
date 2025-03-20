@@ -1,3 +1,4 @@
+package lispinterpreter;
 /*
  * Clase que contiene una función programada por el usuario
  */

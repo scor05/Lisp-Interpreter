@@ -1,9 +1,12 @@
+package lispinterpreter;
 /**
  * Clase que evaluará tanto listas como expresiones atómicas
  */
 
 import java.util.ArrayList;
 import java.util.List;
+
+import lispinterpreter.LispFunction;
 public class Evaluator {
     private Environment env;
 
