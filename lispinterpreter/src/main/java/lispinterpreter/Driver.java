@@ -66,6 +66,11 @@ public class Driver {
         return code;
     }
 
+    /**
+     * Metodo que determina si un string tiene parentesis abierto y cerrado
+     * @param expression
+     * @return boolean
+     */
     private static boolean isCompleteExpression(String expression) {
         int openParens = 0;
         for (char c : expression.toCharArray()) {

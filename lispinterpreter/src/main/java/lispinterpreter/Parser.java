@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
+    /**
+     * Parsea cada una de las lineas de las expresiones y retorna las listas que seran evaluadas por el evaluator.
+     * Utiliza recursion para expresiones complejas que tengan listas que se puedan evaluar dentro de ellas.
+     * @param expression
+     * @return
+     */
     public static Object parse(String expression) {
         expression = expression.trim();
         if (expression.startsWith("(") && expression.endsWith(")")) {
@@ -52,6 +58,11 @@ public class Parser {
         }
     }
 
+    /**
+     * 
+     * @param expression
+     * @return
+     */
     private static Object parseAtom(String expression) {
         if (expression.startsWith("'")) {
             return List.of("quote", parse(expression.substring(1)));
@@ -68,6 +79,11 @@ public class Parser {
         }
     }
 
+    /**
+     * 
+     * @param expression
+     * @return int indice del parentesis que corresponda a la expresion actual
+     */
     private static int findMatchingParenthesis(String expression) {
         int count = 0;
         for (int i = 0; i < expression.length(); i++) {
@@ -83,6 +99,11 @@ public class Parser {
         throw new RuntimeException("Paréntesis incompleto en expresión: " + expression);
     }
 
+    /**
+     * 
+     * @param expression
+     * @return int indice de la comilla que encierre el string.
+     */
     private static int findMatchingQuote(String expression) {
         // Asumimos que la expresión comienza con una comilla doble
         boolean escaped = false;

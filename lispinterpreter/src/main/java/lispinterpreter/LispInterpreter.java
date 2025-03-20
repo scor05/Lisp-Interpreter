@@ -2,11 +2,14 @@ package lispinterpreter;
 /**
  * Clase principal del intérprete
  */
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 public class LispInterpreter {
     private Environment globalEnv;
 
+    /**
+     * Constructor que inicializa el env global y configura todas las funciones basicas de LISP.
+     */
     public LispInterpreter() {
         this.globalEnv = new Environment();
 
@@ -108,7 +111,10 @@ public class LispInterpreter {
         });
     }
     
-  
+    /**
+     * Itera por cada expresion en la arrayList del archivo leido, las parsea y ejecuta.
+     * @param code
+     */
     public void execute(ArrayList<String> code) {
         Evaluator evaluator = new Evaluator(globalEnv);
         for (String expression : code) {

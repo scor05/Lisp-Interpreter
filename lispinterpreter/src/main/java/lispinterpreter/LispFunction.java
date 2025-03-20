@@ -10,12 +10,24 @@ public class LispFunction{
     private List<String> params; 
     private Object body;
     
+    /**
+     * 
+     * @param name
+     * @param params
+     * @param body
+     */
     public LispFunction(String name, List<String> params, Object body) {
         this.name = name;
         this.params = params;
         this.body = body;
     }
     
+    /**
+     * Ejecuta las instrucciones de las funciones en su body y genera el environment hijo para variables locales.
+     * @param args
+     * @param env
+     * @return
+     */
     public Object apply(List<Object> args, Environment env) {
         if (this.body == null) {
             throw new RuntimeException("No se puede aplicar una función vacía.");
@@ -40,26 +52,49 @@ public class LispFunction{
         return result;
     }
 
+    /**
+     * 
+     * @return String
+     */
     public String getName() {
         return name;
     }
     
+    /**
+     * 
+     * @return List<String>
+     */
     public List<String> getParams() {
         return params;
     }
     
+    /**
+     * @return Object
+     */
     public Object getBody() {
         return body;
     }
 
+    /**
+     * 
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * 
+     * @param params
+     */
     public void setParams(List<String> params) {
         this.params = params;
     }
 
+    /**
+     * 
+     * @param body
+     */
     public void setBody(Object body) {
         this.body = body;
     }

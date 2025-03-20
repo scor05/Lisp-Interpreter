@@ -8,11 +8,20 @@ import java.util.List;
 public class Evaluator {
     private Environment env;
 
+    /**
+     * @param env
+     */
     public Evaluator(Environment env) {
         this.env = env;
     }
 
-   public Object eval(Object expression, Environment env) {
+    /**
+     * Evalua cada linea de las expresiones parseadas e identifica que funcion se va a realizar.
+     * @param expression 
+     * @param env
+     * @return Object de resultado
+     */
+    public Object eval(Object expression, Environment env) {
         if (expression instanceof List) {
             List<?> list = (List<?>) expression;
             if (list.isEmpty()) {
@@ -58,6 +67,12 @@ public class Evaluator {
         }
     }
 
+    /**
+     * 
+     * @param list
+     * @param env
+     * @return
+     */
     private Object defineFunction(List<?> list, Environment env) {
         String name = list.get(1).toString();
         @SuppressWarnings("unchecked")
@@ -68,6 +83,12 @@ public class Evaluator {
         return name;
     }
 
+    /**
+     * 
+     * @param list
+     * @param env
+     * @return
+     */
     private Object setVariable(List<?> list, Environment env) {
         String name = list.get(1).toString();
         Object value = eval(list.get(2), env);
@@ -75,22 +96,48 @@ public class Evaluator {
         return value;
     }
 
+    /**
+     * Determina si una expresion es atomica
+     * @param expression
+     * @param env
+     * @return
+     */
     private Object isAtom(Object expression, Environment env) {
         Object value = eval(expression, env);
         return !(value instanceof List);
     }
 
+    /**
+     * 
+     * @param expression
+     * @param env
+     * @return
+     */
     private Object isList(Object expression, Environment env) {
         Object value = eval(expression, env);
         return value instanceof List;
     }
 
+    /**
+     * 
+     * @param expr1
+     * @param expr2
+     * @param env
+     * @return
+     */
     private Object isEqual(Object expr1, Object expr2, Environment env) {
         Object val1 = eval(expr1, env);
         Object val2 = eval(expr2, env);
         return val1.equals(val2);
     }
 
+    /**
+     * 
+     * @param expr1
+     * @param expr2
+     * @param env
+     * @return
+     */
     private Object greaterThan(Object expr1, Object expr2, Environment env) {
         Object val1 = eval(expr1, env);
         Object val2 = eval(expr2, env);
@@ -99,7 +146,15 @@ public class Evaluator {
         }
         throw new RuntimeException("No se puede comparar valores con datos no numericos.");
     }
-     private Object lessThan(Object expr1, Object expr2, Environment env) {
+
+    /**
+     * 
+     * @param expr1
+     * @param expr2
+     * @param env
+     * @return
+     */
+    private Object lessThan(Object expr1, Object expr2, Environment env) {
         Object val1 = eval(expr1, env);
         Object val2 = eval(expr2, env);
         if (val1 instanceof Number && val2 instanceof Number) {
@@ -108,6 +163,12 @@ public class Evaluator {
         throw new RuntimeException("No se puede comparar valores no numericos.");
     }
 
+    /**
+     * 
+     * @param conditions
+     * @param env
+     * @return
+     */
     private Object evaluateCond(List<?> conditions, Environment env) {
         for (Object condition : conditions) {
             List<?> cond = (List<?>) condition;
@@ -119,6 +180,13 @@ public class Evaluator {
         return null;
     }
 
+    /**
+     * 
+     * @param function
+     * @param arg
+     * @param env
+     * @return
+     */
     private Object funcall(Object function, Object arg, Environment env) {
         LispFunction func = env.getFunction(function.toString());
         List<Object> args = new ArrayList<>();
@@ -126,6 +194,13 @@ public class Evaluator {
         return func.apply(args, env);
     }
 
+    /**
+     * Aplica una funcion personalizada.
+     * @param operator
+     * @param args
+     * @param env
+     * @return
+     */
     private Object evaluateFunction(String operator, List<?> args, Environment env) {
         LispFunction function = env.getFunction(operator);
         List<Object> evaluatedArgs = new ArrayList<>();

@@ -10,22 +10,41 @@ public class Environment {
     private HashMap<String, LispFunction> functions;
     private Environment parent;
 
+    /**
+     * Constructor para el env global
+     */
     public Environment() {
         this.variables = new HashMap<>();
         this.functions = new HashMap<>();
         this.parent = null;
     }
     
+    /**
+     * Constructor para cualquier otro environment
+     * @param parent Environment padre
+     */
     public Environment(Environment parent) {
         this.variables = new HashMap<>();
         this.functions = new HashMap<>();
         this.parent = parent;
     }
 
+    /**
+     * 
+     * @param name
+     * @param type
+     * @param value
+     */
     public void setVar(String name, String type, Object value) {
         this.variables.put(name, new LispVariable(name, type, value));
     }
 
+    /**
+     * 
+     * @param name
+     * @return
+     * @throws RuntimeException
+     */
     public Object getVar(String name) throws RuntimeException {
         if (this.variables.containsKey(name)) {
             LispVariable var = this.variables.get(name);
@@ -48,10 +67,21 @@ public class Environment {
         }
     }
 
+    /**
+     * 
+     * @param name
+     * @param function
+     */
     public void defineFunction(String name, LispFunction function) {
         this.functions.put(name, function);
     }
 
+    /**
+     * 
+     * @param name
+     * @return LispFunction
+     * @throws RuntimeException
+     */
     public LispFunction getFunction(String name) throws RuntimeException {
         if (this.functions.containsKey(name)) {
             return this.functions.get(name);
@@ -62,10 +92,18 @@ public class Environment {
         }
     }
 
+    /**
+     * 
+     * @return HashMap de funciones
+     */
     public HashMap<String, LispFunction> getFunctionsHashMap(){
         return this.functions;
     }
 
+    /**
+     * 
+     * @return HashMap de variables
+     */
     public HashMap<String, LispVariable> getVariablesHashMap(){
         return this.variables;
     }
