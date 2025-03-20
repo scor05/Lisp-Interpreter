@@ -27,6 +27,13 @@ public class Parser {
                     list.add(List.of("quote", parse(subExpr)));
                     expression = expression.substring(endIndex + 2).trim();
 
+                } else if (expression.startsWith("\"")) {
+                    // Manejo de cadenas de texto con espacios
+                    int endIndex = findMatchingQuote(expression);
+                    String stringToken = expression.substring(0, endIndex + 1);
+                    list.add(parseAtom(stringToken));
+                    expression = expression.substring(endIndex + 1).trim();
+                    
                 } else {
                     int spaceIndex = expression.indexOf(' ');
                     if (spaceIndex == -1) {
@@ -76,4 +83,19 @@ public class Parser {
         throw new RuntimeException("Paréntesis incompleto en expresión: " + expression);
     }
 
+    private static int findMatchingQuote(String expression) {
+        // Asumimos que la expresión comienza con una comilla doble
+        boolean escaped = false;
+        for (int i = 1; i < expression.length(); i++) {
+            char c = expression.charAt(i);
+            if (c == '\\') {
+                escaped = !escaped;
+            } else if (c == '"' && !escaped) {
+                return i;
+            } else {
+                escaped = false;
+            }
+        }
+        throw new RuntimeException("Comilla incompleta en expresión: " + expression);
+    }
 }
