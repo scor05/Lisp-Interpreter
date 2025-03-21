@@ -125,4 +125,8 @@ public class LispInterpreter {
             }
         }
     }
+    
+    public Environment getGlobalEnvironment(){
+        return this.globalEnv;
+    }
 }

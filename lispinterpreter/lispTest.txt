@@ -1,0 +1,5 @@
+(defun suma (a b)
+  (+ a b))
+(suma 2 3)
+
+(setq mi-lista '(1 2 3 4))

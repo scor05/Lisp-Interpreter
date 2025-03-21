@@ -23,6 +23,7 @@ public class Driver {
             String fileName = sc.nextLine();
             try{
                 ArrayList<String> code = readFile(fileName);
+
                 if (code.isEmpty()) {
                     System.out.println("Output: \n");
                 }
